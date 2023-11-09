@@ -1,0 +1,282 @@
+
+Q1. Calculate the 95% confidence interval for a sample of data with a mean of 50 and a standard deviation of 5 using Python. Interpret the results.
+import numpy as np
+sample_mean = 50
+sample_std = 5
+alpha = 0.05
+n = 100 #Assumuing sample size = 100
+
+# calculating margin of error
+margin_of_error = 1.96 * sample_std/np.sqrt(n)
+
+# Calulating confidence interval
+lower_CI = sample_mean - margin_of_error
+upper_CI = sample_mean + margin_of_error
+
+print(f"With 95% Confidence we can conclude that population mean is between {lower_CI} and {upper_CI}")
+With 95% Confidence we can conclude that population mean is between 49.02 and 50.98
+Q2. Conduct a chi-square goodness of fit test to determine if the distribution of colors of M&Ms in a bag matches the expected distribution of 20% blue, 20% orange, 20% green, 10% yellow, 10% red, and 20% brown. Use Python to perform the test with a significance level of 0.05.
+import scipy.stats as stats
+import numpy as np
+
+# Observed Data (As data is not given so we are taking our own)
+observed = np.array([10, 20, 25, 15, 5, 25])
+
+# Expeceted Data (Based on the given expactations)
+expected = np.array([0.2,0.2,0.2,0.1,0.1,0.2]) * np.sum(observed)
+
+# Performing chi square goodness fit test
+chi, p_value = stats.chisquare(f_obs= observed, f_exp= expected)
+
+# Set Significance level
+significance_level = 0.05
+
+# Compare p_value with  significance level to make decision
+if p_value < significance_level:
+    print("Reject the null hypothesis. The observed distribution is significantly different from the expected distribution.")
+else:
+    print("Fail to reject the null hypothesis. The observed distribution is not significantly different from the expected distribution.")
+Reject the null hypothesis. The observed distribution is significantly different from the expected distribution.
+Q3. Use Python to calculate the chi-square statistic and p-value for a contingency table with the following data:
+image.png
+
+Interpret the results of the test.
+import numpy as np
+import scipy.stats as stats
+
+# create contigency table
+observed = np.array([[20,15],[10,25],[15,20]])
+
+# calculate the chi square statistics and p value
+chi2, p_value, dof, expected = stats.chi2_contingency(observed)
+
+# Print the results
+print("Chi-square test statistic:", chi2)
+print("p-value:", p_value)
+print("Degrees of freedom:", dof)
+print("Expected frequencies:\n", expected)
+
+# Interpret the results
+alpha = 0.05
+if p_value < alpha:
+    print("There is significant evidence to reject the null hypothesis.")
+else:
+    print("There is not enough evidence to reject the null hypothesis.")
+Chi-square test statistic: 5.833333333333334
+p-value: 0.05411376622282158
+Degrees of freedom: 2
+Expected frequencies:
+ [[15. 20.]
+ [15. 20.]
+ [15. 20.]]
+There is not enough evidence to reject the null hypothesis.
+Q4. A study of the prevalence of smoking in a population of 500 individuals found that 60 individuals smoked. Use Python to calculate the 95% confidence interval for the true proportion of individuals in the population who smoke.
+import numpy as np
+
+n = 500
+p = 60/n
+alpha = 0.05
+
+margin_of_error = 1.96 * np.sqrt((p*(1-p))/n)
+lower_ci = p - margin_of_error
+upper_ci = p+margin_of_error
+
+print(f"With 95% Confidence we can conclude that true proportion of individuals in the population who smoke is between {lower_ci*100}% and {upper_ci*100}%")
+With 95% Confidence we can conclude that true proportion of individuals in the population who smoke is between 9.15158654686508% and 14.84841345313492%
+Q5. Calculate the 90% confidence interval for a sample of data with a mean of 75 and a standard deviation of 12 using Python. Interpret the results.
+import numpy as np
+sample_mean = 75
+sample_std = 12
+alpha = 0.10
+n = 100 #Assumuing sample size = 100
+
+# calculating margin of error
+margin_of_error = 1.96 * sample_std/np.sqrt(n)
+
+# Calulating confidence interval
+lower_CI = sample_mean - margin_of_error
+upper_CI = sample_mean + margin_of_error
+
+print(f"With 90% Confidence we can conclude that population mean is between {lower_CI} and {upper_CI}")
+With 90% Confidence we can conclude that population mean is between 72.648 and 77.352
+Q6. Use Python to plot the chi-square distribution with 10 degrees of freedom. Label the axes and shade the area corresponding to a chi-square statistic of 15.
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import chi2
+
+df = 10
+
+# Define the range of x values
+x = np.linspace(0, 30, 200)
+
+# Plot the chi-square distribution
+plt.plot(x, chi2.pdf(x, df), 'b-', lw=2)
+
+# Shade the area corresponding to a chi-square statistic of 15
+x_shade = np.linspace(15, 30, 200)
+y_shade = chi2.pdf(x_shade, df)
+plt.fill_between(x_shade, y_shade, color='blue', alpha=0.5)
+
+# Label the axes
+plt.xlabel('Chi-Square Statistic')
+plt.ylabel('Density')
+
+# Show the plot
+plt.show()
+
+Q7. A random sample of 1000 people was asked if they preferred Coke or Pepsi. Of the sample, 520 preferred Coke. Calculate a 99% confidence interval for the true proportion of people in the population who prefer Coke.
+import numpy as np
+
+n = 1000
+p = 520/n
+alpha = 0.01
+
+margin_of_error = 2.58 * np.sqrt((p*(1-p))/n)
+lower_ci = p - margin_of_error
+upper_ci = p+margin_of_error
+
+print(f"With 95% Confidence we can conclude that true proportion of individuals in the population who smoke is between {lower_ci*100}% and {upper_ci*100}%")
+With 95% Confidence we can conclude that true proportion of individuals in the population who smoke is between 47.92392659536166% and 56.076073404638336%
+Q8. A researcher hypothesizes that a coin is biased towards tails. They flip the coin 100 times and observe 45 tails. Conduct a chi-square goodness of fit test to determine if the observed frequencies match the expected frequencies of a fair coin. Use a significance level of 0.05.
+Ans: o conduct a chi-square goodness of fit test to determine if the observed frequencies match the expected frequencies of a fair coin, we can follow these steps:
+
+Step 1: State the null and alternative hypotheses.
+
+The null hypothesis is that the observed frequencies match the expected frequencies of a fair coin, and the alternative hypothesis is that the observed frequencies do not match the expected frequencies of a fair coin.
+
+H0: The coin is fair (i.e., p = 0.5) Ha: The coin is biased towards tails (i.e., p < 0.5)
+
+Step 2: Determine the expected frequencies.
+
+If the coin is fair, we would expect to see 50% heads and 50% tails in 100 flips. Therefore, the expected frequencies are:
+
+Expected frequency of heads: 100 * 0.5 = 50 Expected frequency of tails: 100 * 0.5 = 50
+
+Step 3: Calculate the test statistic.
+
+The chi-square test statistic for a goodness of fit test is calculated using the following formula:
+
+χ2 = ∑(O-E)²/E
+
+Where:
+
+χ2 is the chi-square test statistic O is the observed frequency E is the expected frequency Plugging in the observed and expected frequencies, we get:
+
+χ2 = [(45-50)²/50] + [(55-50)²/50] χ2 = 1
+
+Step 4: Determine the degrees of freedom.
+
+The degrees of freedom for a goodness of fit test are calculated as:
+
+df = k - 1
+
+Where k is the number of categories. In this case, we have two categories (heads and tails), so k = 2. Therefore:
+
+df = 2 - 1 = 1
+
+Step 5: Determine the critical value and p-value.
+
+Using a significance level of 0.05 and 1 degree of freedom, we can find the critical value from a chi-square distribution table or calculator. The critical value is 3.84.
+
+We can also find the p-value using a chi-square distribution table or calculator. The p-value is the probability of getting a test statistic as extreme or more extreme than the observed, assuming the null hypothesis is true. In this case, the p-value is 0.3173.
+
+Step 6: Make a decision.
+
+Since the test statistic (χ2 = 1) is less than the critical value (3.84) and the p-value (0.3173) is greater than the significance level (0.05), we fail to reject the null hypothesis.
+
+Therefore, we do not have enough evidence to conclude that the coin is biased towards tails. The observed frequencies are consistent with the expected frequencies of a fair coin.
+
+Q9. A study was conducted to determine if there is an association between smoking status (smoker or non-smoker) and lung cancer diagnosis (yes or no). The results are shown in the contingency table below. Conduct a chi-square test for independence to determine if there is a significant association between smoking status and lung cancer diagnosis.
+image.png
+
+Use a significance level of 0.05.
+Ans: To conduct a chi-square test for independence, we need to determine the observed frequencies, expected frequencies, degrees of freedom, and the critical value for a significance level of 0.05.
+
+Observed Frequencies:
+
+Lung Cancer:	Yes	No	Total
+Smoker	60	30	200
+Non-Smoker	140	170	200
+Total	90	310	400
+Total number of smokers = 60 + 140 = 200
+
+Total number of non-smokers = 30 + 170 = 200
+
+Total number of individuals with lung cancer = 60 + 30 = 90
+
+Total number of individuals without lung cancer = 140 + 170 = 310
+
+Expected Frequencies: We can calculate the expected frequencies for each cell by multiplying the row total and the column total and then dividing by the grand total.
+
+E = (row total * column total) / grand total
+
+Expected Frequency:
+
+Lung Cancer:	Yes	No	Total
+Smoker	45	155	200
+Non-Smoker	45	155	200
+Total	90	310	400
+Degrees of Freedom: The degrees of freedom (df) for a chi-square test for independence can be calculated as (r-1)(c-1), where r is the number of rows and c is the number of columns in the contingency table. In this case, df = (2-1)(2-1) = 1
+
+Critical Value: We can look up the critical value for a chi-square distribution with 1 degree of freedom and a significance level of 0.05 in a chi-square table. The critical value is 3.841.
+
+Chi-Square Test Calculation: We can now calculate the chi-square test statistic using the formula:
+
+χ² = Σ[(O - E)²/E]
+
+where Σ is the sum of all cells in the contingency table, O is the observed frequency, and E is the expected frequency.
+
+Using the observed and expected frequencies, we can calculate the chi-square test statistic as follows:
+
+χ² = [(60-45)²/45] + [(140-155)²/155] + [(30-45)²/45] + [(170-155)²/155] = 12.9
+
+Since the calculated chi-square test statistic (12.9) is greater than the critical value (3.841), we reject the null hypothesis. Therefore, we can conclude that there is a significant association between smoking status and lung cancer diagnosis at a significance level of 0.05.
+
+Q10. A study was conducted to determine if the proportion of people who prefer milk chocolate, dark chocolate, or white chocolate is different in the U.S. versus the U.K. A random sample of 500 people from the U.S. and a random sample of 500 people from the U.K. were surveyed. The results are shown in the contingency table below. Conduct a chi-square test for independence to determine if there is a significant association between chocolate preference and country of origin.
+image.png
+
+Use a significance level of 0.01.
+Ans: To conduct a chi-square test for independence, we need to determine the observed frequencies, expected frequencies, degrees of freedom, and the critical value for a significance level of 0.01.
+
+Observed Frequencies:
+
+Chocolate:	Milk	Dark	White	Total
+US(n=500)	200	150	150	300
+UK(n=500)	225	175	100	500
+Total	425	325	250	1000
+Expected Frequencies: We can calculate the expected frequencies for each cell by multiplying the row total and the column total and then dividing by the grand total.
+
+E = (row total * column total) / grand total
+
+Expected Frequency:
+
+Chocolate:	Milk	Dark	White	Total
+US(n=500)	212.5	162.5	125	300
+UK(n=500)	212.5	162.5	125	500
+Total	425	325	250	1000
+Degrees of Freedom:
+
+The degrees of freedom (df) for a chi-square test for independence can be calculated as (r-1)*(c-1), where r is the number of rows and c is the number of columns in the contingency table.
+
+In this case, df = (2-1)*(3-1) = 2
+
+Critical Value:
+
+We can look up the critical value for a chi-square distribution with 2 degrees of freedom and a significance level of 0.01 in a chi-square table. The critical value is 9.21.
+
+Chi-Square Test Calculation:
+
+We can now calculate the chi-square test statistic using the formula:
+
+χ² = Σ[(O - E)²/E]
+
+where Σ is the sum of all cells in the contingency table, O is the observed frequency, and E is the expected frequency.
+
+Using the observed and expected frequencies, we can calculate the chi-square test statistic as follows:
+
+χ² = [(200-212.5)²/212.5] + [(150-162.5)²/162.5] + [(150-125)²/125] + [(225-212.5)²/212.5] + [(175-162.5)²/162.5] + [(100-125)²/125] = 13.38
+
+Since the calculated chi-square test statistic (13.38) is greater than the critical value (9.21), we reject the null hypothesis. Therefore, we can conclude that there is a significant association between chocolate preference and country of origin at a significance level of 0.01.
+
+Q11. A random sample of 30 people was selected from a population with an unknown mean and standard deviation. The sample mean was found to be 72 and the sample standard deviation was found to be 10. Conduct a hypothesis test to determine if the population mean is significantly different from 70. Use a significance level of 0.05.
+Ans:
